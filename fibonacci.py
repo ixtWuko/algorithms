@@ -12,7 +12,11 @@ def fibonacci_nth(n):
 def fibonacci(n):
     result = []
     for i in range(n+1)[1:]:
-        result.append(fibonacci_nth(i))
+        if i == 1 or i == 2:
+            result.append(1)
+        else:
+            temp = result[-1] + result[-2]
+            result.append(temp)
     return result
 
 print(fibonacci(25))
