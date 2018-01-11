@@ -18,6 +18,7 @@ def fibonacci_nth(n):
         else:
             temp = result[-1] + result[-2]
             result.append(temp)
+            result.pop(0)
     return result[-1]
 
 def fibonacci(n):
