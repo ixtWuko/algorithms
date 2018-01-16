@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 
-# 凯撒密码
+'''a module to encode and decode caesar'''
 
 def caesar_encode(string_to_encode, shift = 3):
     result = ''
@@ -31,5 +31,6 @@ def casear_decode(string_to_decode, shift = 3):
         result += temp_char
     return result
 
-print(caesar_encode("encode this string using caesar's encryption"))
-print(casear_decode("ghfrgh wklv vwulqj xvlqj fdhvdu'v hqfubswlrq"))
+if __name__ == '__main__':
+    print(caesar_encode("encode this string using caesar's encryption"))
+    print(casear_decode("ghfrgh wklv vwulqj xvlqj fdhvdu'v hqfubswlrq"))

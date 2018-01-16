@@ -1,15 +1,14 @@
-# 解数独的程序
-# 有两个步骤，第一步用于推断出所有必然的数字，第二步用于猜测一个数字看是否得出结果
-# 首先应该写一个判断数独是否完成的函数，如果第一步完成，则不需要执行第二步
-# 第二步的猜测需要保留第一步的进度，直到解出数独
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+'''a module to calculate a sudoku table from a input sudoku table
+using 0 instead of blank.
+there are two steps, get the number using codiction, guess a number and go on.'''
 
 from copy import deepcopy
 
-table_unfinished = [[0,1,0,0,6,0,0,9,0],[0,0,9,4,0,0,3,0,0],[5,0,0,0,7,0,0,0,2],[0,0,0,0,0,0,6,0,9],[1,0,6,0,0,0,0,0,0],[0,7,0,6,0,0,0,4,0],[0,0,4,5,0,0,8,0,0],[0,8,0,0,0,6,0,7,0],[2,0,0,0,0,8,0,0,1]]
 
-#----------------------------------------------------
-#输入输出
-
+#---------- input and output ----------
 def print_table(table, pow = 9):
     print('-'*25)
     for i in range(pow):
@@ -30,9 +29,7 @@ def input_table(pow = 9):
         table.append(lint_int)
     return table
 
-#-----------------------------------------------------------
-#检查是否正确
-
+#---------- check the result ----------
 def check_row_finished(table, row_number, pow = 9):
     temp_row = sorted(table[row_number])
     if temp_row == list(range(1,pow+1)):
@@ -52,7 +49,6 @@ def check_unit_finished(table, unit_index, pow = 9):
         return True
     return False
 
-# 测试数独填充完成之后是否有错误
 def check_table(table, pow = 9):
     for i in range(9):
         if not check_row_finished(table, i):
@@ -65,9 +61,6 @@ def check_table(table, pow = 9):
             return False
     return True
 
-#--------------------------------------------------------
-#检查是否完成
-
 def is_finish(table, pow = 9):
     for i in range(pow):
         for j in range(pow):
@@ -75,9 +68,7 @@ def is_finish(table, pow = 9):
                 return False
     return True
 
-#--------------------------------------------------------
-#生成可能的数字
-
+#---------- calculate the possible numbers with condictions ----------
 def in_row(table, n, row_number, pow = 9):
     return n in table[row_number]
 
@@ -109,8 +100,7 @@ def all_possible_numbers(table, pow = 9):
             possible_numbers_table[i].append(cell)
     return possible_numbers_table
 
-#----------------------------------------------------------------
-#推断一个cell中的数字
+#---------- calculate the numbers of blank ----------
 def number_of_cell(possible_numbers_table, cell_index, pow = 9):
     [x,y] = cell_index
     temp_list = possible_numbers_table[x][y]
@@ -154,8 +144,7 @@ def number_of_cell(possible_numbers_table, cell_index, pow = 9):
             return n
     return 0
 
-#-------------------------------------------------------
-#生成尝试序列
+#-------- make a table to show which cell had tried ---------
 def get_the_try_table(possible_numbers_table):
     cell_had_tyied = [[False]*9 for i in range(9)]
     for i in range(9):
@@ -164,8 +153,7 @@ def get_the_try_table(possible_numbers_table):
                 cell_had_tyied[i][j] = True
     return cell_had_tyied
 
-#---------------------------------------------------------------
-#寻找最小的可能序列
+#---------- find a min length list of possibel numbers of a blank cell ----------
 def min_list_of_possible_numbers(possible_numbers_table, cell_had_tyied, pow = 9):
     [x, y] = [0, 0]
     length = pow
@@ -192,8 +180,7 @@ def min_list_of_possible_numbers(possible_numbers_table, cell_had_tyied, pow = 9
     cell_had_tyied[x][y] = True
     return[[x,y], length]
 
-#---------------------------------------------------------------
-#第一步，直推
+#---------- calculate the numbers of blank without guessing ----------
 def step_one(table, pow = 9):
     change_flag = False
     possible_numbers_table = all_possible_numbers(table)
@@ -209,8 +196,7 @@ def step_one(table, pow = 9):
                 change_flag = True
     return change_flag
 
-#--------------------------------------------------------------
-#第二步，猜测
+#---------- guess a number from a possible number list to test if it's correct ----------
 def step_two(table, pow = 9):
     possible_numbers_table = all_possible_numbers(table)
     cell_had_tyied = get_the_try_table(possible_numbers_table)
@@ -239,18 +225,15 @@ def step_two(table, pow = 9):
                 continue
             return temp_table
 
-# ---------------------------------------------------------------
-#test
-
-table = table_unfinished
-table = input_table()
-print_table(table)
-
-while step_one(table):
-    pass
-
-if not is_finish(table):
-    table = step_two(table)
-
-print('the result is:')
-print_table(table)
+#---------- test ----------
+if __name__ == '__main__':
+    table_unfinished = [[0,1,0,0,6,0,0,9,0],[0,0,9,4,0,0,3,0,0],[5,0,0,0,7,0,0,0,2],[0,0,0,0,0,0,6,0,9],[1,0,6,0,0,0,0,0,0],[0,7,0,6,0,0,0,4,0],[0,0,4,5,0,0,8,0,0],[0,8,0,0,0,6,0,7,0],[2,0,0,0,0,8,0,0,1]]
+    table = table_unfinished
+    table = input_table()
+    print_table('the input is:\n', table)
+    while step_one(table):
+        pass
+    if not is_finish(table):
+        table = step_two(table)
+    print('the result is:')
+    print_table(table)

@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+'''a module to calculate the gcd of two number using Euclid algorithm
+result = gcd(a,b) '''
+
 # 欧几里得算法求最大公约数
 
 def gcd(a, b):
@@ -9,4 +15,5 @@ def gcd(a, b):
         s = temp
     return s
 
-print(gcd(225, 252))
+if __name__ == '__main__':
+    print(gcd(225, 252))
