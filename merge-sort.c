@@ -62,7 +62,6 @@ int main() {
     int test_set_length; 
     int *result;
     int i;
-	printf("merge sort\n");
     freopen("C:\\test_set\\unsorted_input.txt", "r", stdin);
     while (scanf("%d", &test_set_length) != EOF) {
         for (i = 0; i < test_set_length; i++) {
