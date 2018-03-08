@@ -1,9 +1,9 @@
 /*---- linear search 线性搜索 ----
 input：
 6 3 #需要排序的元素数目和需要查找的数字
-1 2 3 4 5 6
+2 4 5 3 6 1
 output:
-3 #位置是第三个
+3 #位置
 
 linear search: Theta(n)
 -----------------------------*/
@@ -28,7 +28,7 @@ int main() {
     int test_set_length; 
     int test_search_element;
     int i;
-    freopen("C:\\test_set\\search_input.txt", "r", stdin);
+    freopen("C:\\test_set\\unsorted_search_input.txt", "r", stdin);
     while (scanf("%d %d", &test_set_length, &test_search_element) != EOF) {
         for (i = 0; i < test_set_length; i++) {
             scanf("%d", &test_set[i]);

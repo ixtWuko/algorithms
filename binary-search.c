@@ -27,7 +27,7 @@ int main() {
     int test_set_length; 
     int test_search_element;
     int i;
-    freopen("C:\\test_set\\search_input.txt", "r", stdin);
+    freopen("C:\\test_set\\sorted_search_input.txt", "r", stdin);
     while (scanf("%d %d", &test_set_length, &test_search_element) != EOF) {
         for (i = 0; i < test_set_length; i++) {
             scanf("%d", &test_set[i]);

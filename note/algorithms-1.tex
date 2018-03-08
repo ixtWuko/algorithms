@@ -1,12 +1,56 @@
 \section{基础知识}
-\subsubsection*{记号}
+\subsubsection*{渐进记号}
 \begin{itemize}
     \item $\Theta$: $f(n) = cg(n)$
     \item $O$: $f(n) \le cg(n)$
     \item $o$: $f(n) < cg(n)$
     \item $\Omega$: $f(n) \ge cg(n)$
-    \item $\omega$: $f(n) \> cg(n)$
+    \item $\omega$: $f(n) > cg(n)$
+\end{itemize}
+这份笔记中的运行时间基本都是指最坏情况运行时间。
+
+\subsubsection*{求解递归式}
+递归式用于分析分治算法的运行时间。
+\begin{itemize}
+    \item 代入法：猜测一个界，然后验证。
+    \item 递归树法：将递归式转换为一棵树，求和。
+    \item 主方法：使用主定理
+
+    若递归式$T(n) = aT(n/b) + f(n)$中，$a \ge 0, b > 0$，则比较$f(n)$与$n^{\log _b a}$，
+    \begin{itemize}
+        \item $f(n) > n^{\log _b a}$, $T(n) = \Theta (n^{\log _b a})$.
+        \item $f(n) < n^{\log _b a}$, $T(n) = \Theta (f(n))$.
+        \item $f(n) = n^{\log _b a}$, $T(n) = \Theta (n^{\log _b a} \log _2 n)$.
+    \end{itemize}
+
+    另外还有 Akra-Bazzi 方法。
 \end{itemize}
 
+\subsubsection*{概率分析}
+概率分析用于分析随机算法的运行时间。
+
+指示器随机变量：$I\{A\} = \begin{cases} 1 & A \text{发生}\\ 0 & A \text{不发生} \end{cases}$
+
+\begin{itemize}
+    \item 对于一次事件：$E(I\{A\}) = 1 \cdot P(A) + 0 \cdot P(\overline A) = P(A)$
+    \item 对于$n$次事件：$E(X) = E(\displaystyle \sum _{i=1}^n X_i) = \sum _{i=1}^n E(I\{A_i\}) = \sum _{i=1}^n P(A_i)$
+\end{itemize}
+
+产生一个均匀随机序列：指能够等可能地产生包含所有元素的每一种序列的方式，随机产生的一个序列。
+
+\section{数据结构}
+
 \section{搜索}
+\begin{itemize}
+    \item 线性搜索 linear search: $\Theta (n)$
+    \item 二分搜索 binary search: $\Theta (\log n)$
+    \item 随机搜索 random search: $\Theta (n)$
+\end{itemize}
+
 \section{排序}
+\begin{itemize}
+    \item 选择排序 selection sort: $\Theta (n^2)$
+    \item 插入排序 insertion sort: $\Theta (n^2)$
+    \item 冒泡排序 bubble sort: $\Theta (n^2)$
+    \item 归并排序 merge sort: $\Theta (n \log n)$
+\end{itemize}
