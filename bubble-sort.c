@@ -5,7 +5,7 @@ input：
 output:
 1 2 3 4 5 6
 
-bubble sort: O(n^2)
+bubble sort: \Theta (n^2)
 -----------------------------*/
 
 #include <stdio.h>

@@ -5,7 +5,7 @@ input：
 output:
 1 2 3 4 5 6
 
-selection sort: O(n^2)
+selection sort: Theta (n^2)
 -----------------------------*/
 
 #include <stdio.h>

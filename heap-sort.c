@@ -5,7 +5,7 @@ input：
 output:
 1 2 3 4 5 6
 
-heap sort: Theta(n log n)
+heap sort: O(n log n)
 ---------------------------------*/
 
 #include <stdio.h>
