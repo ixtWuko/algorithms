@@ -1,12 +1,4 @@
-/*---- heap sort 堆排序 ----
-input：
-6 #需要排序的元素数目
-5 2 4 6 1 3
-output:
-1 2 3 4 5 6
-
-heap sort: O(n log n)
----------------------------------*/
+/*---- heap sort 堆排序 ----*/
 
 #include <stdio.h>
 
