@@ -32,4 +32,5 @@ if __name__ == '__main__':
     search_lst = [49, 27, 65, 97, 76, 12, 49, 38]
     merge_sort(search_lst)
     print(search_lst)
+    print(binary_search(search_lst, 48))
     print(binary_search(search_lst, 49))
