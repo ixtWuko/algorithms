@@ -22,8 +22,10 @@ def quick_sort(lst, start=0, end=-1):
                 swap(lst, i, exchange_index)
         exchange_index += 1
         swap(lst, end, exchange_index)
-        quick_sort(lst, start, exchange_index-1)
-        quick_sort(lst, exchange_index+1, end)
+        if start < exchange_index:
+            quick_sort(lst, start, exchange_index-1)
+        if exchange_index < end:
+            quick_sort(lst, exchange_index+1, end)
 
 
 if __name__ == '__main__':
