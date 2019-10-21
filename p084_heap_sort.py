@@ -4,6 +4,7 @@
 """《算法导论》 084页
     堆排序"""
 
+from a_swap import *
 
 def parent(index):
     return (index - 1) // 2
@@ -33,9 +34,7 @@ class Heap:
         if rhs < len(lst) and lst[rhs] > lst[largest]:
             largest = rhs
         if largest != index:
-            value_tmp = lst[largest]
-            lst[largest] = lst[index]
-            lst[index] = value_tmp
+            swap(lst, largest, index)
             self.__max_heapify(largest)
 
     def __init__(self, lst):

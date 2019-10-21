@@ -5,6 +5,7 @@
     随机排列数组"""
 
 import numpy as np
+from a_swap import *
 
 
 def permute_by_sorting(lst):
@@ -15,12 +16,8 @@ def permute_by_sorting(lst):
     for i in range(0, length):
         for j in range(1, length-i):
             if p[j-1] > p[j]:
-                value_tmp = p[j-1]
-                p[j-1] = p[j]
-                p[j] = value_tmp
-                value_tmp = lst[j-1]
-                lst[j-1] = lst[j]
-                lst[j] = value_tmp
+                swap(p, j-1, j)
+                swap(lst, j-1, j)
 
 
 if __name__ == '__main__':

@@ -4,14 +4,14 @@
 """《算法导论》 023页
     冒泡排序"""
 
+from a_swap import *
+
 
 def bubble_sort(lst):
     for i in range(1, len(lst)):
         for j in range(len(lst) - i):
             if lst[j] > lst[j+1]:
-                value_tmp = lst[j]
-                lst[j] = lst[j+1]
-                lst[j+1] = value_tmp
+                swap(lst, j, j+1)
 
 
 if __name__ == '__main__':
