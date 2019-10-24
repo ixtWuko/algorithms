@@ -120,7 +120,7 @@ class Binary_tree:
 
     def predecessor(self, node):
         if node.get_left():
-            return self.maximum(node.get_left)
+            return self.maximum(node.get_left())
         node_tmp = node.get_parent()
         while node_tmp and (node is node_tmp.get_left()):
             node = node_tmp
