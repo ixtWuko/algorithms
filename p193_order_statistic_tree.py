@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""《算法导论》 174页
-    红黑树"""
+"""《算法导论》 192页
+    动态顺序统计"""
 
 from a_sequence_generator import generate_sequence
 
@@ -15,6 +15,7 @@ class Tree_node:
     def __init__(self, data):
         self.data = data
         self.color = Black
+        self.size = 1
         self.p = None
         self.left = None
         self.right = None
@@ -24,10 +25,10 @@ class Tree_node:
             color = 'R'
         else:
             color = 'B'
-        return 'color: ' + color + ' value: ' + str(self.data)
+        return 'color: ' + color + ' size: ' + str(self.size) + ' value: ' + str(self.data)
 
 
-class Red_black_tree:
+class Order_statistic_tree:
     def __init__(self):
         self.root = None
 
@@ -104,6 +105,15 @@ class Red_black_tree:
             x.p.right = y
         y.left = x
         x.p = y
+        y.size = x.size
+        if x.left and x.right:
+            x.size = x.left.size + x.right.size + 1
+        elif x.left:
+            x.size = x.left.size + 1
+        elif x.right:
+            x.size = x.right.size + 1
+        else:
+            x.size = 1
 
     def right_rotate(self, x):
         y = x.left
@@ -119,6 +129,15 @@ class Red_black_tree:
             x.p.right = y
         y.right = x
         x.p = y
+        y.size = x.size
+        if x.left and x.right:
+            x.size = x.left.size + x.right.size + 1
+        elif x.left:
+            x.size = x.left.size + 1
+        elif x.right:
+            x.size = x.right.size + 1
+        else:
+            x.size = 1
 
     def __insert_fixup(self, node):
         while node.p and node.p.color == Red:
@@ -174,6 +193,10 @@ class Red_black_tree:
                         parent_node.right = insertion_node
                         insertion_node.p = parent_node
                         break
+            size_change_node = insertion_node.p
+            while size_change_node:
+                size_change_node.size += 1
+                size_change_node = size_change_node.p
             self.__insert_fixup(insertion_node)
 
     def __delete_fixup(self, node):
@@ -239,6 +262,10 @@ class Red_black_tree:
                 node.p.left = None
             else:
                 node.p.right = None
+            size_change_node = node.p
+            while size_change_node:
+                size_change_node.size -= 1
+                size_change_node = size_change_node.p
             del node
         elif node.left is None:
             node.data = node.right.data
@@ -252,6 +279,32 @@ class Red_black_tree:
             node.data = node_tmp.data
             self.delete(node_tmp)
 
+    def select(self, ith, node=None):
+        if node is None:
+            node = self.root
+        if node.left:
+            r = node.left.size + 1
+        else:
+            r = 1
+        if ith == r:
+            return node
+        elif ith < r:
+            return self.select(ith, node=node.left)
+        else:
+            return self.select(ith-r, node=node.right)
+
+    def rank(self, node):
+        if node.left:
+            r = node.left.size + 1
+        else:
+            r = 1
+        tmp_node = node
+        while tmp_node is not self.root:
+            if tmp_node is tmp_node.p.right and tmp_node.p.left:
+                r += tmp_node.p.left.size + 1
+            tmp_node = tmp_node.p
+        return r
+
 
 if __name__ == '__main__':
     t = Tree_node(35)
@@ -260,12 +313,18 @@ if __name__ == '__main__':
     unsorted = generate_sequence()
     print(unsorted)
 
-    rbt = Red_black_tree()
+    ost = Order_statistic_tree()
     for ele in unsorted:
-        rbt.insert(ele)
-    print(rbt)
+        ost.insert(ele)
+    print(ost)
     for ele in unsorted[:10]:
-        t = rbt.search(ele)
+        t = ost.search(ele)
         if t:
-            rbt.delete(t)
-        print(rbt)
+            ost.delete(t)
+        print(ost)
+
+    for ith in range(1, 10):
+        t = ost.select(ith)
+        if t:
+            print(t)
+            print(ost.rank(t))
