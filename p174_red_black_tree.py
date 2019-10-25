@@ -4,6 +4,8 @@
 """《算法导论》 174页
     红黑树"""
 
+from a_sequence_generator import generate_sequence
+
 
 Red = True
 Black = False
@@ -153,7 +155,7 @@ class Red_black_tree:
         if node is None:
             node = self.root
         while node.left:
-            node = left
+            node = node.left
         return node
 
     def successor(self, node):
@@ -184,37 +186,93 @@ class Red_black_tree:
         v.p = u.p
 
     def __delete_fixup(self, node):
+        """ref: https://zhuanlan.zhihu.com/p/22800206"""
         while node is not self.root and node.color == Black:
             if node is node.p.left:
                 bro = node.p.right
                 if bro.color == Red:
+                    # case 5
                     bro.color = Black
-                    node.p.color = Red
+                    bro.left.color = Red
                     self.left_rotate(node.p)
-                    bro = node.p.right
-                if bro.left.color == Black and bor.right.color == Black:
-                    bro.color = Red
-                    node = node.p
+                    break
                 else:
-                    if bro.right.color == Black:
-                        bro.left.color = Black
+                    if bro.left is None and bro.right is None:
+                        # case 4
                         bro.color = Red
+                        node = node.p
+                    elif bro.right is None:
+                        # case 2
+                        bro.color = Red
+                        bro.left.color = Black
                         self.right_rotate(bro)
-                        bro = node.p.right
-                    bro.color = node.p.color
-                    node.p.color = Black
-                    bro.right.color = Black
-                    self.left_rotate(node.p)
-                    node = node.p
+                    else:
+                        # case 1,3
+                        bro.color = node.p.color
+                        bro.right.color = Black
+                        node.p.color = Black
+                        self.left_rotate(node.p)
+                        break
             else:
+                bro = node.p.left
+                if bro.color == Red:
+                    # case 5
+                    bro.color = Black
+                    bro.right.color = Red
+                    self.right_rotate(node.p)
+                    break
+                else:
+                    if bro.left is None and bro.right is None:
+                        # case 4
+                        bro.color = Red
+                        node = node.p
+                    elif bro.left is None:
+                        # case 2
+                        bro.color = Red
+                        bro.right.color = Black
+                        self.left_rotate(bro)
+                    else:
+                        # case 1,3
+                        bro.color = node.p.color
+                        bro.left.color = Black
+                        node.p.color = Black
+                        self.right_rotate(node.p)
+                        break
 
-
+        # while node is not self.root and node.color == Black:
+        #     if node is node.p.left:
+        #         bro = node.p.right
+        #         if bro.color == Red:
+        #             bro.color = Black
+        #             node.p.color = Red
+        #             self.left_rotate(node.p)
+        #             bro = node.p.right
+        #         if bro.left.color == Black and bor.right.color == Black:
+        #             bro.color = Red
+        #             node = node.p
+        #         else:
+        #             if bro.right.color == Black:
+        #                 bro.left.color = Black
+        #                 bro.color = Red
+        #                 self.right_rotate(bro)
+        #                 bro = node.p.right
+        #             bro.color = node.p.color
+        #             node.p.color = Black
+        #             bro.right.color = Black
+        #             self.left_rotate(node.p)
+        #             node = node.p
+        #     else:
 
     def delete(self, node):
         if node.left is None and node.right is None:
             # has no subtree
             if node.color == Black:
-
+                self.__delete_fixup(node)
+            if node is node.p.left:
+                node.p.left = None
+            else:
+                node.p.right = None
+            del node
         elif node.left is None:
             node.data = node.right.data
             self.delete(node.right)
@@ -228,17 +286,22 @@ class Red_black_tree:
             self.delete(node_tmp)
 
 
-
-
-
 if __name__ == '__main__':
     t = Tree_node(35)
     print(t)
 
-    unsorted = [49, 27, 65, 97, 76, 12, 38]
+    unsorted = generate_sequence()
+    print(unsorted)
+
     rbt = Red_black_tree()
     for ele in unsorted:
         rbt.insert(ele)
     print(rbt)
+    for ele in unsorted[:10]:
+        t = rbt.search(ele)
+        if t:
+            rbt.delete(t)
+        print(rbt)
+
 
 
