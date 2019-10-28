@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""《算法导论》 129页
+"""《算法导论》 129页, 259页
     栈与队列"""
 
 
@@ -16,7 +16,17 @@ class Stack:
         self.items.append(ele)
 
     def pop(self):
-        return self.items.pop()
+        if not self.is_empty():
+            return self.items.pop()
+        return None
+
+    def multipop(self, k):
+        result = []
+        while k > 0:
+            result.append(self.pop())
+            k -= 1
+        return result
+
 
 
 class Queue:
