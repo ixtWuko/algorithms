@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """《算法导论》 017页
-    归并排序 """
+    归并排序
+    排序的过程主要在于归并过程 """
 
 
 def merge(lst, start, middle, end):

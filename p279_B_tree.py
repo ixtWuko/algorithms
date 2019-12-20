@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """《算法导论》 279页
-    B树"""
+    B树
+    重点是在插入元素后节点的拆分与合并"""
 
 
 class B_tree_node(object):

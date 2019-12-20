@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """《算法导论》 095页
-    快速排序"""
+    快速排序 """
 
 import numpy as np
 from a_swap import swap

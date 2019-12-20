@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """《算法导论》 174页
-    红黑树"""
+    红黑树
+    重点是在插入或删除元素后，通过左旋、右旋和改变颜色恢复红黑树的性质"""
 
 from a_sequence_generator import generate_sequence
 
