@@ -50,7 +50,7 @@ class Fib_heap(object):
     
     def min_node(self):
         return self.min
-    def min(self):
+    def min_key(self):
         return self.min.key
 
     def union(self, h):
@@ -72,8 +72,6 @@ class Fib_heap(object):
             self.n = h.n
     
     def link(self, x, y):
-        if x.key < y.key:
-            x, y = y, x
         y.left.right = y.right
         y.right.left = y.left
         if x.child:
@@ -102,11 +100,13 @@ class Fib_heap(object):
             while current_node.degree in degree_array:
                 another_node = degree_array[current_node.degree]
                 degree_array.pop(another_node.degree)
+                if current_node.key > another_node.key:
+                    current_node, another_node = another_node, current_node
                 current_node = self.link(current_node, another_node)
             degree_array[current_node.degree] = current_node
             current_node = next_node
         self.min = None
-        for ele in degree_array.items:
+        for key, ele in degree_array.items():
             if self.min:
                 if ele.key < self.min.key:
                     self.min = ele
@@ -119,7 +119,7 @@ class Fib_heap(object):
             child = z.child
             for i in range(z.degree):
                 left_node = root_linklist
-                right.node = root_linklist.right
+                right_node = root_linklist.right
                 left_node.right = child
                 child.left = left_node
                 right_node.left = child
@@ -130,11 +130,11 @@ class Fib_heap(object):
             right_node = z.right
             left_node.right = right_node
             right_node.left = left_node
-            if z if z.right:
+            if z is z.right:
                 self.min = None
             else:
                 self.min = z.right
-                consolidate()
+                self.consolidate()
             self.n -= 1
         return z
             
@@ -175,5 +175,19 @@ class Fib_heap(object):
             self.min = node
 
     def delete(self, node):
-        self.decrease_key(node, float('-sinf')):
+        self.decrease_key(node, float('-inf'))
         self.extract_min()
+    
+
+if __name__ == '__main__':
+    unsorted = [536, 522, 4, 865, 813, 423, 254, 176, 995, 268, 632, 861, 872, 349, 628, 808, 70, 945, 712, 683, 84]
+    h = Fib_heap()
+    for ele in unsorted:
+        h.insert(ele)
+    print(h.min_key())
+    node = h.extract_min()
+    print(node.key)
+    h.delete(node)
+    print(h.min_key())
+    node = h.extract_min()
+    print(node.key)
