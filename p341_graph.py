@@ -80,7 +80,8 @@ class Graph(object):
                 if next_vertex.color == WHITE:
                     next_vertex.bfs_distance = current.bfs_distance + 1
                     next_vertex.bfs_precursor = current
-                    queue.append(next_vertex)
+                    if next_vertex not in queue:
+                        queue.append(next_vertex)
 
     def dfs(self, func, start):
         ''' 深度优先搜索，深度优先森林 '''
@@ -88,26 +89,37 @@ class Graph(object):
         BLACK = True
         for vertex in self.vertices:
             vertex.color = WHITE
-            vertex.gfs_time = 0
-            vertex.gfs_precursor = None
-        time = 0;
+            vertex.dfs_precursor = None
+        time = 0
         
-        for vertex in [start].extend(self.vertices):
-            if vertex.color == WHITE:
-                current = vertex
-                ended = False
-                while not ended:
-                    func(current)
-                    time += 1
-                    current.gfs_time = time
-                    current.color = BLACK
-                    ended = True
-                    for ele in current.edges:
-                        if self.vertices[ele.end].color == WHITE:
-                            ended = False
-                            self.vertices[ele.end].gfs_precursor = current
-                            current = self.vertices[ele.end]
+        def visit(vert):
+            func(vert)
+            vert.color = BLACK
+            nonlocal time
+            time += 1
+            vert.dfs_discover_time = time
+            for ele in vert.edges:
+                if self.vertices[ele.end].color == WHITE:
+                    self.vertices[ele.end].dfs_precursor = vert
+                    visit(self.vertices[ele.end])
+                    break
+            time += 1
+            vert.dfs_finish_time = time
 
+        for vertex in [start] + self.vertices:
+            if vertex.color == WHITE:
+                visit(vertex)
+
+    def topological_sort(self):
+        self.dfs(print_vertex, self.vertices[0])
+        result = self.vertices
+        get_finish_time = lambda vertex: vertex.dfs_finish_time
+        result.sort(key=get_finish_time)
+        return result
+
+
+def print_vertex(vert):
+    print('work on vertex index: ', vert.index)
 
 if __name__ == '__main__':
     keys = [1,2,3,4,5]
@@ -123,3 +135,9 @@ if __name__ == '__main__':
     g.from_adjacent_matrix(False, keys, mat)
     print(g)
     print(g.to_adjacent_matrix())
+    print('----------')
+    g.bfs(print_vertex, g.vertices[0])
+    print('----------')
+    g.dfs(print_vertex, g.vertices[0])
+    print('----------')
+    print(g.topological_sort())
