@@ -60,6 +60,54 @@ class Graph(object):
             result.append(s)
         return '\n -------------------- \n'.join(result)
 
+    def bfs(self, func, start):
+        ''' 广度优先搜索，广度优先树
+            树中节点的后继可以通过bfs_distance判断 '''
+        WHITE = False
+        BLACK = True
+        for vertex in self.vertices:
+            vertex.color = WHITE
+            vertex.bfs_distance = len(self.vertices)
+            vertex.bfs_precursor = None
+        start.bfs_distance = 0
+        queue = [start]
+        while queue:
+            current = queue.pop(0)
+            func(current)
+            current.color = BLACK
+            for ele in current.edges:
+                next_vertex = self.vertices[ele.end]
+                if next_vertex.color == WHITE:
+                    next_vertex.bfs_distance = current.bfs_distance + 1
+                    next_vertex.bfs_precursor = current
+                    queue.append(next_vertex)
+
+    def dfs(self, func, start):
+        ''' 深度优先搜索，深度优先森林 '''
+        WHITE = False
+        BLACK = True
+        for vertex in self.vertices:
+            vertex.color = WHITE
+            vertex.gfs_time = 0
+            vertex.gfs_precursor = None
+        time = 0;
+        
+        for vertex in [start].extend(self.vertices):
+            if vertex.color == WHITE:
+                current = vertex
+                ended = False
+                while not ended:
+                    func(current)
+                    time += 1
+                    current.gfs_time = time
+                    current.color = BLACK
+                    ended = True
+                    for ele in current.edges:
+                        if self.vertices[ele.end].color == WHITE:
+                            ended = False
+                            self.vertices[ele.end].gfs_precursor = current
+                            current = self.vertices[ele.end]
+
 
 if __name__ == '__main__':
     keys = [1,2,3,4,5]
