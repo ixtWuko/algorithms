@@ -56,7 +56,7 @@ class Graph(object):
         for vertex in self.vertices:
             s = "vertex index: " + str(vertex.index) + \
                 "\nvertex key: " + str(vertex.key) + \
-                "\nconnected to: " + str([e.end for e in vertex.edges])
+                "\nconnected to: " + str([self.vertices[e.end].key for e in vertex.edges])
             result.append(s)
         return '\n -------------------- \n'.join(result)
 
